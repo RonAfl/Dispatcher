@@ -1,17 +1,17 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import AppInput from './components/AppInput';
+import LoginScreen from './features/auth/LoginScreen';
 
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
   return (
-    <View>
-
+    <View style={styles.root}>
+      <LoginScreen/>
     </View>
-  );
-}
+  )
+};
 
 const styles = StyleSheet.create({
-
+root:{flex:1}
 });
-
-export default App;
