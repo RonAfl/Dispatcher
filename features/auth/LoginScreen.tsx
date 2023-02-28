@@ -1,12 +1,24 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import AppInput from '../../components/AppInput'
+import AuthButton from '../../components/AuthButton';
 
+const handleLoginPressed = () => {
+    console.log(1, "Login Button Pressed!");
+}
+
+const handleSignUpPressed = () => {
+    console.log(2, "SIGNUP-> Button Pressed!");
+}
 
 const LoginScreen = () => {
-    return(
+    return (
         <View style={styles.container}>
-            <AppInput></AppInput>
+            <AppInput/>
+            <View style={styles.buttonsContainer}>
+                <AuthButton label="SIGNUP ->" bgcolor="#0058B9" onPress={handleSignUpPressed} />
+                <AuthButton label="LOGIN" bgcolor="#F1F1F9" onPress={handleLoginPressed} />
+            </View>
         </View>
     )
 };
@@ -14,6 +26,13 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    buttonsContainer: {
+        flex:1,
+        alignItems:'center',
+        justifyContent: 'center',
+        flexDirection:'column',
+        gap:24,
     }
 })
 
