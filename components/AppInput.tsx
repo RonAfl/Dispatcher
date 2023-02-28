@@ -3,19 +3,21 @@ import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 
 interface InputProps {
     label: string,
-    isPassword: boolean
+    isPassword: boolean,
+    value: string,
+    onChange: (value:string) => void
 }
 
-const AppInput: React.FC<InputProps> = ({ label, isPassword }) => {
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
+const AppInput: React.FC<InputProps> = ({ label, isPassword, value, onChange}) => {
+    const [isPasswordVisible, setIsPasswordVisible] = useState(isPassword);
+    
     const togglePasswordVisibility = () => {
         setIsPasswordVisible(!isPasswordVisible);
     };
 
     return (
         <View style={styles.container} >
-            <TextInput style={styles.inputStyle} placeholder={label} secureTextEntry={isPasswordVisible} />
+            <TextInput value={value} onChangeText={onChange} style={styles.inputStyle} placeholder={label} secureTextEntry={isPasswordVisible} />
             {isPassword && <TouchableOpacity onPress={togglePasswordVisibility}>
                 <Image
                     style={styles.imageStyle}
