@@ -1,22 +1,38 @@
 import React, { useState } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, ImageBackground, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import AppInput from '../../components/AppInput'
 import AuthButton from '../../components/AuthButton';
 import { KeyboardAvoidingView } from 'react-native';
+import auth from '@react-native-firebase/auth';
+
 interface User {
     email: string,
     password: string
 }
 
+
+
 const LoginScreen = () => {
     const handleLoginPressed = () => {
         console.log(1, "Login Button Pressed!");
+        if (email.includes('@moveo.co.il') && password === rePassword) {
+            console.log(3, email, password, rePassword)
+            const USER = { email: email, password: password };
+        auth().signInWithEmailAndPassword(USER.email,USER.password).then(res => {
+            Alert.alert("Success", "Logged in!");
+            console.log(res);
+        })}
     }
     const handleSignUpPressed = () => {
         console.log(2, "SIGNUP-> Button Pressed!");
         if (email.includes('@moveo.co.il') && password === rePassword) {
             console.log(3, email, password, rePassword)
             const USER = { email: email, password: password };
+            auth().createUserWithEmailAndPassword(USER.email,USER.password).then(res => {
+                Alert.alert("Success", "Signed up!");
+                console.log(res);
+            })
+
             console.log(USER);
         } else {
             console.log("fix to show the problem!");
