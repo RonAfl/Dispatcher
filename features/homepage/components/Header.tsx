@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#262146',
         paddingLeft: 16,
         paddingVertical: 21,
-        marginTop: Platform.OS === 'ios' ? '9%' : 0,
 
     },
     imagesContainer: {

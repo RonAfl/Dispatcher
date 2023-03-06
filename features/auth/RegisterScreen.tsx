@@ -132,7 +132,6 @@ const RegisterScreen = () => {
 const styles = StyleSheet.create({
     viewsContainer: {
         flex: 1,
-        marginTop: Platform.OS==='ios' ? '14%' : 0,
     },
     messageEmailStyle: {
         color: '#FD5959',
