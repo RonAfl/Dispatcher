@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { Provider } from 'react-redux';
 import LoginScreen from './features/auth/LoginScreen';
 import RegisterScreen from './features/auth/RegisterScreen';
@@ -9,10 +9,10 @@ import store from './redux/store/store';
 export default function App(): JSX.Element {
   return (
     <Provider store={store}>
-      <View style={styles.root}>
+      <SafeAreaView style={styles.root}>
         {/* <RegisterScreen /> */}
         <HomeScreen/>
-      </View>
+      </SafeAreaView>
     </Provider>
   )
 };

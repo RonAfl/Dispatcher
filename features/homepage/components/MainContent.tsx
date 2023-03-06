@@ -32,7 +32,7 @@ const MainContent = () => {
                     <Text style={styles.lastLoginText}>{lastLoginData}</Text>
                 </View>
             </View>
-            <SafeAreaView style={styles.newsContainer}>
+            <View style={styles.newsContainer}>
                 <FlatList
                     data={news}
                     keyExtractor={(item) => item.source.id + item.source.name + item.title + item.urlToImage}
@@ -40,7 +40,7 @@ const MainContent = () => {
                     ListHeaderComponent={<Text style={styles.mainTitle}>Top Headlines in USA</Text>}
                     ItemSeparatorComponent={() => <View style={styles.articleGaps} />}
                 />
-            </SafeAreaView>
+            </View>
         </View>
     );
 };
