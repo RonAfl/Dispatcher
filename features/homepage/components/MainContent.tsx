@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, Image, StyleSheet, Text, View, Touchable } from 'react-native';
-
+import { Platform, Image, StyleSheet, Text, View, Touchable, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store/store';
+import { fetchNews } from '../../../redux/thunks/newsThunk';
+import Article from './Article';
+import { News } from '../interfaces/News';
 
 const MainContent = () => {
-    const [lastLoginData, setlastLoginData] = useState('')
+    const [lastLoginData, setlastLoginData] = useState('');
+    const news: News[] = useSelector((state: RootState) => state.news.data);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchNews());
+    }, [dispatch]);
 
     const handleLastLogin = (data: any) => {
         setlastLoginData(data);
-    }
+    };
 
     useEffect(() => {
         handleLastLogin('03:50 PM, 09.03.2022');
-    }, [])
-
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -21,15 +31,19 @@ const MainContent = () => {
                     <Text style={styles.lastLoginTitile}>Last Login: </Text>
                     <Text style={styles.lastLoginText}>{lastLoginData}</Text>
                 </View>
-                <Text style={styles.mainTitle}>Top Headlines in Israel</Text>
             </View>
-            <View style={styles.newsContainer}>
-
-            </View>
+            <SafeAreaView style={styles.newsContainer}>
+                <FlatList
+                    data={news}
+                    keyExtractor={(item) => item.source.id + item.source.name + item.title + item.urlToImage}
+                    renderItem={({ item }) => <Article article={item} />}
+                    ListHeaderComponent={<Text style={styles.mainTitle}>Top Headlines in USA</Text>}
+                    ItemSeparatorComponent={() => <View style={styles.articleGaps} />}
+                />
+            </SafeAreaView>
         </View>
-    )
+    );
 };
-
 
 const styles = StyleSheet.create({
     container: {
@@ -37,15 +51,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingTop: 6,
     },
+    articleGaps: {
+        height: 20,
+    },
     titlesContainer: {
         gap: 12,
     },
-    lastLoginContainer:{
-        flexDirection:'row',
-        alignItems:'center'
-        
+    lastLoginContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
-    lastLoginText:{
+    lastLoginText: {
         fontSize: 12,
         fontWeight: '400',
         lineHeight: 22,
@@ -57,6 +73,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         lineHeight: 32,
         color: '#262146',
+        paddingBottom: 20,
     },
     lastLoginTitile: {
         fontSize: 12,
@@ -67,7 +84,8 @@ const styles = StyleSheet.create({
     },
     newsContainer: {
         flex: 1,
-    }
-})
+        marginTop: 20,
+    },
+});
 
 export default MainContent;

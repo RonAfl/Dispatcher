@@ -17,7 +17,7 @@ const Header = () => {
                 <View style={styles.imagesContainer}>
                     <Image style={styles.icon} source={require('../../../assets/images/search.png')}></Image>
                     <View style={styles.notifications}>
-                    {notified && <Image style={styles.ping} source={require('../../../assets/images/pingedNotification.png')}></Image>}
+                    {!notified && <Image style={styles.ping} source={require('../../../assets/images/pingedNotification.png')}></Image>}
                         <Image style={styles.icon} source={require('../../../assets/images/notifications.png')}></Image>
                     </View>
                 </View>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#262146',
         paddingLeft: 16,
         paddingVertical: 21,
-        marginTop: Platform.OS === 'ios' ? '14%' : 0,
+        marginTop: Platform.OS === 'ios' ? '9%' : 0,
 
     },
     imagesContainer: {
