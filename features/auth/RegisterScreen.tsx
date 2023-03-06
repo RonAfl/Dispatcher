@@ -4,7 +4,7 @@ import AppInput from '../../components/AppInput'
 import AuthButton from '../../components/AuthButton';
 import auth from '@react-native-firebase/auth';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,6 +22,7 @@ const RegisterScreen = () => {
 
     const handleLoginPressed = () => {
         console.log(2, "Login Button Pressed!");
+        navigation.navigate('Login');
     }
 
     const handleSignUpPressed = () => {
@@ -38,6 +39,7 @@ const RegisterScreen = () => {
             const USER = { email: email, password: password };
             auth().createUserWithEmailAndPassword(USER.email, USER.password).then(res => {
 
+                navigation.navigate('Home');
                 Alert.alert("Success", "Signed up!");
                 console.log(2, res);
 
@@ -140,7 +142,7 @@ const styles = StyleSheet.create({
         color: '#FD5959'
     },
     logoContainer: {
-        height: '35%',
+        height: '30%',
         backgroundColor: "#262146",
         alignItems: 'center',
         justifyContent: 'center',
@@ -179,7 +181,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        gap: 24,
+        gap: 12,
         marginTop: '10%',
 
     },
