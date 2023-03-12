@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { apiKeys } from '../../utils/apiKey';
+import { ConstApi } from '../../utils/const/constantsApi/ConstApi';
 
 export const fetchNews = createAsyncThunk('news/fetchNews', async () => {
-  const response = await axios.get(
-    'https://newsapi.org/v2/top-headlines?country=us&apiKey=fd251f4e34464e29ab076f6d5a615e8f'
-  );
+  const response = await axios.get(ConstApi.NEWS_API+apiKeys.NEWS_API_KEY);
   return response.data.articles;
 });
+

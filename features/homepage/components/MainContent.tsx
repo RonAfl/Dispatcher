@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, Image, StyleSheet, Text, View, Touchable, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store/store';
 import { fetchNews } from '../../../redux/thunks/newsThunk';
 import Article from './Article';
-import { News } from '../interfaces/News';
+import { ArticleInterface } from '../interfaces/News';
+import Colors from '../../../utils/const/colors/Colors';
 
 const MainContent = () => {
     const [lastLoginData, setlastLoginData] = useState('');
-    const news: News[] = useSelector((state: RootState) => state.news.data);
+    const news: ArticleInterface[] = useSelector((state: RootState) => state.news.data);
 
     const dispatch = useDispatch();
 
@@ -16,12 +17,8 @@ const MainContent = () => {
         dispatch(fetchNews());
     }, [dispatch]);
 
-    const handleLastLogin = (data: any) => {
-        setlastLoginData(data);
-    };
-
     useEffect(() => {
-        handleLastLogin('03:50 PM, 09.03.2022');
+        setlastLoginData('03:50 PM, 09.03.2022');
     }, []);
 
     return (
@@ -66,13 +63,13 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         lineHeight: 22,
         letterSpacing: 0.25,
-        color: '#5A5A89',
+        color: Colors.primary700,
     },
     mainTitle: {
         fontSize: 24,
         fontWeight: '500',
         lineHeight: 32,
-        color: '#262146',
+        color: Colors.primary900,
         paddingBottom: 20,
     },
     lastLoginTitile: {
@@ -80,7 +77,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         lineHeight: 22,
         letterSpacing: 0.25,
-        color: '#5A5A89',
+        color: Colors.primary700,
     },
     newsContainer: {
         flex: 1,

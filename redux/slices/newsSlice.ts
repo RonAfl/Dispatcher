@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store/store';
-import { News } from '../../features/homepage/interfaces/News';
+import { ArticleInterface } from '../../features/homepage/interfaces/News';
 import { fetchNews } from '../thunks/newsThunk';
 
 interface NewsState {
   loading: boolean;
   error: string | null;
-  data: News[];
+  data: ArticleInterface[];
 }
 
 const initialState: NewsState = {

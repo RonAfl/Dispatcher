@@ -1,24 +1,26 @@
-import React, {useState} from 'react';
-import { Platform, Image, StyleSheet, Text, View, Touchable } from 'react-native';
-
+import React, { useState } from 'react';
+import { Image, StyleSheet, View } from 'react-native';
+import Colors from '../../../utils/const/colors/Colors';
+import { SvgXml } from 'react-native-svg';
+import getLogo from '../../../assets/svgxml/logo';
+import getHeaderIcon from '../../../assets/svgxml/headerIcons';
+import { getSearchIcon } from '../../../assets/svgxml/headerIcons';
 
 const Header = () => {
     const [notified, setNotified] = useState(false);
 
     const handleNotifications = () => {
-        setNotified(true);
+        setNotified(!notified);
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.imagesContainer}>
-                <Image style={styles.logoImage} source={require('../../../assets/images/logo.png')}></Image>
-
+                {getLogo(true)}
                 <View style={styles.imagesContainer}>
-                    <Image style={styles.icon} source={require('../../../assets/images/search.png')}></Image>
+                    {getSearchIcon()}
                     <View style={styles.notifications}>
-                    {!notified && <Image style={styles.ping} source={require('../../../assets/images/pingedNotification.png')}></Image>}
-                        <Image style={styles.icon} source={require('../../../assets/images/notifications.png')}></Image>
+                        {getHeaderIcon(!notified)}
                     </View>
                 </View>
             </View>
@@ -30,7 +32,7 @@ const Header = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#262146',
+        backgroundColor: Colors.primary900,
         paddingLeft: 16,
         paddingVertical: 21,
 
@@ -38,26 +40,13 @@ const styles = StyleSheet.create({
     imagesContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingRight: 8,
+        gap: 16,
     },
-    logoImage: {
-        width: 40,
-        height: 31
-    },
-    icon: {
-        width: 20,
-        height: 20,
-        marginRight: 20,
-    },
-    notifications:{
+    notifications: {
         position: 'relative'
     },
-    ping: {
-        position:'absolute',
-        left: 11,
-        top: -2.5,
-        zIndex:1,
-    }
 })
 
 export default Header;

@@ -1,56 +1,108 @@
 import React, { useState } from 'react';
-import { Alert, Image, StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
+import { Alert, StyleSheet, Text, View, KeyboardAvoidingView, ViewStyle } from 'react-native';
 import AppInput from '../../components/AppInput'
 import AuthButton from '../../components/AuthButton';
 import auth from '@react-native-firebase/auth';
+import { Screen } from '../../utils/navigation/Screens/Screens';
+import Colors from '../../utils/const/colors/Colors';
+import { ConstantLabels, ConstantText } from '../../utils/const/constantTexts/ConstantText';
+import getLogo from '../../assets/svgxml/logo';
+import { SvgXml } from 'react-native-svg';
 
-const LoginScreen = ({ navigation }) => {
 
-    const handleLoginPressed = () => {
-        console.log(2, "Login Button Pressed!");
-        const isEmailValid: boolean = EmailValidation(email);
-        const isPasswordValid: boolean = PasswordValidation(password);
-        if (isEmailValid && isPasswordValid) {
-            const USER = { email: email, password: password };
-            auth().signInWithEmailAndPassword(USER.email, USER.password).then(res => {
-                console.log(res);
-                navigation.navigate('Home');
-                Alert.alert('Success', 'Logged In!' );
-            }).catch((error) => {
-                    // Some other error occurred
-                    Alert.alert('Error', error.message);
-                }
-            )
-        }
-        else {
-            if (!isEmailValid) Alert.alert('Failed to signup user!', 'Email is not valid!');
-            else if (!isPasswordValid) Alert.alert('Failed to signup user!', 'password is too short');
-            else Alert.alert('Alert!', 'Couldnt signup for some reason!');
-        }
-    }
+import { useNavigation } from '@react-navigation/native';
+import { AppStackParams } from '../../utils/navigation/AppNavigation';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-    const handleSignUpPressed = () => {
-        console.log(1, "SIGNUP-> Button Pressed!");
-        navigation.navigate('Register')
-    }
+
+const LoginScreen = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [emailColor, setEmailColor] = useState(Colors.black);
+    const [passwordColor, setPasswordColor] = useState(Colors.black);
+
+    const [emailErrorMessage, setEmailErrorMessage] = useState('');
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+
+    const [isHiddenMail, setIsHiddenMail] = useState(true);
+    const [isHiddenPass, setisHiddenPass] = useState(true);
+
+    const navigation = useNavigation<NativeStackNavigationProp<AppStackParams>>();
+
+    const handleLoginPressed = () => {
+        setIsHiddenMail(true);
+        setisHiddenPass(true);
+        setEmailColor(Colors.black);
+        setPasswordColor(Colors.black);
+
+        const isEmailValid: boolean = emailValidation(email);
+        const isPasswordValid: boolean = passwordValidation(password);
+
+        if (isEmailValid && isPasswordValid) {
+            auth().signInWithEmailAndPassword(email, password).then(res => {
+                navigation.navigate('Tabs');
+                Alert.alert(ConstantText.SUCCESS, ConstantText.SUCCESS_LOGIN_MSG);
+            }).catch((error) => {
+
+                if (error.code === ConstantText.WRONG_PASSWORD) {
+                    setisHiddenPass(false);
+                    setPasswordErrorMessage(ConstantText.WRONG_PASSWORD_ERR_MSG);
+                    setPasswordColor(Colors.error_msg);
+                }
+                else if (error.code === ConstantText.WRONG_EMAIL) {
+                    setIsHiddenMail(false);
+                    setEmailErrorMessage(ConstantText.WRONG_EMAIL_ERR_MSG);
+                    setEmailColor(Colors.error_msg);
+                }
+                else if (error.code === ConstantText.TOO_MANY_REQUESTS) {
+                    setIsHiddenMail(false);
+                    setEmailErrorMessage(ConstantText.TOO_MANY_REQUESTS_ERR_MSG);
+                    setEmailColor(Colors.error_msg);
+                }
+                else {
+                    Alert.alert(ConstantText.ERROR_ALRT, error.message);
+                }
+            });
+        }
+        else {
+            if (!isEmailValid) Alert.alert(ConstantText.FAILED_LOGIN, ConstantText.FAILED_LOGIN_ERR_MSG);
+            else if (!isPasswordValid) Alert.alert(ConstantText.FAILED_LOGIN, ConstantText.SHORT_PASSWORD);
+            else Alert.alert(ConstantText.ALERT, ConstantText.FAILED_LOGIN);
+        }
+    }
+
+    const handleSignUpPressed = () => {
+        navigation.navigate(Screen.REGISTER_PAGE);
+    }
+
     const emailRegex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const EmailValidation = (email: string): boolean => {
+    const emailValidation = (email: string) => {
         return emailRegex.test(email);
     }
 
-    const PasswordValidation = (password: string): boolean => {
-        return password.length >= 8;
+    const passwordValidation = (password: string) => {
+        return password.length >= ConstantText.PASSWORD_MAX_LENGTH;
     }
+
+    const unHiddenStyle: ViewStyle = {
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        paddingTop: 10,
+    };
+
+    const HiddenStyle: ViewStyle = {
+        display: 'none',
+
+    };
 
     return (
         <KeyboardAvoidingView style={styles.viewsContainer}>
 
             <View style={styles.logoContainer}>
-                <Image source={require('../../assets/images/logo.png')}></Image>
+                {getLogo(false)}
             </View>
 
             <View style={styles.container}>
@@ -59,15 +111,19 @@ const LoginScreen = ({ navigation }) => {
                 </View>
 
                 <View style={styles.inputsContainer}>
-                    <AppInput label='Your email' isPassword={false} value={email} onChange={setEmail} />
-                    <AppInput label='Password' isPassword={true} value={password} onChange={setPassword} />
+                    <AppInput label={ConstantLabels.EMAIL} borderColor={emailColor} isPassword={false} text={email} onChange={setEmail} />
+                    <Text style={[styles.messageEmailStyle, isHiddenMail ? HiddenStyle : unHiddenStyle]}>{emailErrorMessage}</Text>
+
+                    <AppInput label={ConstantLabels.PASSWORD} borderColor={passwordColor} isPassword={true} text={password} onChange={setPassword} />
+                    <Text style={[styles.messagePasswordStyle, isHiddenPass ? HiddenStyle : unHiddenStyle]}>{passwordErrorMessage}</Text>
+
                 </View>
 
-                <View style={styles.hr} />
+                <View style={styles.separatorLine} />
 
                 <View style={styles.buttonsContainer}>
-                    <AuthButton label="LOGIN" bgcolor="#6CA4E1" isImage={true} onPress={handleLoginPressed} />
-                    <AuthButton label="SIGNUP" bgcolor="#F1F1F9" isImage={false} onPress={handleSignUpPressed} />
+                    <AuthButton label={ConstantLabels.LOGIN.toUpperCase()} bgcolor={Colors.button_primary} isArrow={true} onPress={handleLoginPressed} />
+                    <AuthButton label={ConstantLabels.SIGN_UP.toUpperCase()} bgcolor={Colors.button_secondary} isArrow={false} onPress={handleSignUpPressed} />
                 </View>
             </View>
 
@@ -81,13 +137,13 @@ const styles = StyleSheet.create({
     },
     logoContainer: {
         minHeight: 250,
-        height: '30%',
-        backgroundColor: "#262146",
+        height: '35%',
+        backgroundColor: Colors.primary900,
         alignItems: 'center',
         justifyContent: 'center',
     },
     container: {
-        backgroundColor: '#F8F8FF',
+        backgroundColor: Colors.secondary500,
     },
     titleContainer: {
         paddingTop: 40,
@@ -98,7 +154,7 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         lineHeight: 22,
         alignItems: "center",
-        color: "#5A5A89",
+        color: Colors.primary700,
     },
     inputsContainer: {
         alignItems: 'center',
@@ -106,7 +162,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
         marginBottom: 40,
     },
-    hr: {
+    separatorLine: {
         borderBottomWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -119,8 +175,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        gap: 24,
+        gap: 16,
         marginTop: 50,
+
+    },
+    messageEmailStyle: {
+        color: Colors.error_msg,
+
+    },
+    messagePasswordStyle: {
+        color: Colors.error_msg,
 
     },
 })

@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
-import { Platform, Alert, Image, StyleSheet, Text, View, KeyboardAvoidingView, ViewStyle } from 'react-native';
+import { Alert, Image, StyleSheet, Text, View, KeyboardAvoidingView, ViewStyle } from 'react-native';
 import AppInput from '../../components/AppInput'
 import AuthButton from '../../components/AuthButton';
 import auth from '@react-native-firebase/auth';
+import { Screen } from '../../utils/navigation/Screens/Screens';
+import Colors from '../../utils/const/colors/Colors';
+import { ConstantLabels, ConstantText } from '../../utils/const/constantTexts/ConstantText';
+import { SvgXml } from 'react-native-svg';
+import logoXml from '../../assets/svgxml/logo';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppStackParams } from '../../utils/navigation/AppNavigation';
+import getLogo from '../../assets/svgxml/logo';
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = () => {
 
+    const navigation = useNavigation<NativeStackNavigationProp<AppStackParams>>();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [rePassword, setRePassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const emailRegex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
-    const [emailColor, setEmailColor] = useState('#000000');
-    const [passwordColor, setPasswordColor] = useState('#000000');
+    const [emailColor, setEmailColor] = useState(Colors.black);
+    const [passwordColor, setPasswordColor] = useState(Colors.black);
 
     const [emailErrorMessage, setEmailErrorMessage] = useState('');
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
@@ -21,73 +31,65 @@ const RegisterScreen = ({navigation}) => {
     const [isHiddenPass, setisHiddenPass] = useState(true);
 
     const handleLoginPressed = () => {
-        console.log(2, "Login Button Pressed!");
-        navigation.navigate('Login');
+        navigation.navigate(Screen.LOGIN_PAGE);
     }
 
     const handleSignUpPressed = () => {
-        console.log(1, "SIGNUP-> Button Pressed!");
-        const isEmailValid: boolean = EmailValidation(email);
-        const isPasswordValid: boolean = PasswordValidation(password, rePassword);
+        const isEmailValid: boolean = emailValidation(email);
+        const isPasswordValid: boolean = passwordValidation(password, confirmPassword);
         setIsHiddenMail(true);
         setisHiddenPass(true);
-        setEmailColor('#000000');
-        setPasswordColor('#000000');
+        setEmailColor(Colors.black);
+        setPasswordColor(Colors.black);
 
         if (isPasswordValid && isEmailValid) {
+            auth().createUserWithEmailAndPassword(email, password).then(res => {
 
-            const USER = { email: email, password: password };
-            auth().createUserWithEmailAndPassword(USER.email, USER.password).then(res => {
-
-                navigation.navigate('Home');
-                Alert.alert("Success", "Signed up!");
-                console.log(2, res);
+                navigation.navigate('Tabs');
+                Alert.alert(ConstantText.SUCCESS, ConstantText.SUCCESS_SIGNUP_MSG);
 
             }).catch((error) => {
-
-                if (error.code === 'auth/email-already-in-use') {
+                if (error.code === ConstantText.EMAIL_IN_USE) {
                     setIsHiddenMail(false);
-                    setEmailErrorMessage('Email address is already in use');
-                    setEmailColor('#FD5959');
+                    setEmailErrorMessage(ConstantText.EMAIL_IN_USE_ERR_MSG);
+                    setEmailColor(Colors.error_msg);
                 }
-                else if (error.code === 'auth/invalid-email') {
+                else if (error.code === ConstantText.INVALID_EMAIL) {
                     setIsHiddenMail(false);
-                    setEmailErrorMessage('Email address must be provided');
-                    setEmailColor('#FD5959');
+                    setEmailErrorMessage(ConstantText.INVALID_EMAIL_ERR_MSG);
+                    setEmailColor(Colors.error_msg);
                 }
-                else if (error.code === 'auth/weak-password') {
+                else if (error.code === ConstantText.WEAK_PASSWORD) {
                     setisHiddenPass(false);
-                    setPasswordErrorMessage('Password is too weak');
-                    setPasswordColor('#FD5959');
+                    setPasswordErrorMessage(ConstantText.WEAK_PASSWORD_ERR_MSG);
+                    setPasswordColor(Colors.error_msg);
                 } else {
                     // Some other error occurred
-                    Alert.alert('Error', error.message);
+                    Alert.alert(ConstantText.ERROR_ALRT, error.message);
                 }
             });
         }
         else {
             if (!isPasswordValid) {
                 setisHiddenPass(false);
-                setPasswordErrorMessage('Passwords do not match / password length > 8');
-                setPasswordColor('#FD5959');
+                setPasswordErrorMessage(ConstantText.INVALID_PASSWORD_MSG);
+                setPasswordColor(Colors.error_msg);
             }
-            if(!isEmailValid){
+            if (!isEmailValid) {
                 setIsHiddenMail(false);
-                setEmailErrorMessage('Email address is not valid');
-                setEmailColor('#FD5959');
+                setEmailErrorMessage(ConstantText.INVALID_EMAIL_MSG);
+                setEmailColor(Colors.error_msg);
             }
         }
     }
 
-
-    const EmailValidation = (email: string): boolean => {
+    const emailValidation = (email: string): boolean => {
         return emailRegex.test(email);
     }
 
-    const PasswordValidation = (password: string, rePassword: string): boolean => {
-        return ((password === rePassword) && password.length >= 8);
+    const passwordValidation = (password: string, rePassword: string): boolean => {
+        return ((password === rePassword) && password.length >= ConstantText.PASSWORD_MAX_LENGTH);
     }
-
 
     const unHiddenStyle: ViewStyle = {
         display: 'flex',
@@ -104,26 +106,27 @@ const RegisterScreen = ({navigation}) => {
     return (
         <KeyboardAvoidingView style={styles.viewsContainer} behavior='height' keyboardVerticalOffset={100}>
             <View style={styles.logoContainer}>
-                <Image source={require('../../assets/images/logo.png')}></Image>
+            {getLogo(false)}
+
             </View>
             <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Signup</Text>
+                    <Text style={styles.title}>{ConstantLabels.SIGN_UP}</Text>
                 </View>
 
                 <View style={styles.inputsContainer}>
-                       
-                        <AppInput label='Your email' borderColor={emailColor} isPassword={false} value={email} onChange={setEmail} ></AppInput>
-                        <Text style={[styles.messageEmailStyle, isHiddenMail ? HiddenStyle : unHiddenStyle]}>{emailErrorMessage}</Text>
-              
-                        <AppInput label='Password' borderColor={passwordColor} isPassword={true} value={password} onChange={setPassword} />
-                        <Text style={[styles.messagePasswordStyle, isHiddenPass ? HiddenStyle : unHiddenStyle]}>{passwordErrorMessage}</Text>
-                    <AppInput label='Re-Enter Password' borderColor={passwordColor} isPassword={true} value={rePassword} onChange={setRePassword} />
+
+                    <AppInput label={ConstantLabels.EMAIL} borderColor={emailColor} isPassword={false} text={email} onChange={setEmail} ></AppInput>
+                    <Text style={[styles.messageEmailStyle, isHiddenMail ? HiddenStyle : unHiddenStyle]}>{emailErrorMessage}</Text>
+
+                    <AppInput label={ConstantLabels.PASSWORD} borderColor={passwordColor} isPassword={true} text={password} onChange={setPassword} />
+                    <Text style={[styles.messagePasswordStyle, isHiddenPass ? HiddenStyle : unHiddenStyle]}>{passwordErrorMessage}</Text>
+                    <AppInput label={ConstantLabels.CONFIRM_PASSWORD} borderColor={passwordColor} isPassword={true} text={confirmPassword} onChange={setConfirmPassword} />
                 </View>
-                <View style={styles.hr} />
+                <View style={styles.separatorLine} />
                 <View style={styles.buttonsContainer}>
-                    <AuthButton label="SIGNUP" bgcolor="#6CA4E1" isImage={true} onPress={handleSignUpPressed} />
-                    <AuthButton label="LOGIN" bgcolor="#D9DBE9" isImage={false} onPress={handleLoginPressed} />
+                    <AuthButton label={ConstantLabels.SIGN_UP.toUpperCase()} bgcolor={Colors.button_primary} isArrow={true} onPress={handleSignUpPressed} />
+                    <AuthButton label={ConstantLabels.LOGIN.toUpperCase()} bgcolor={Colors.button_secondary} isArrow={false} onPress={handleLoginPressed} />
                 </View>
 
             </View>
@@ -136,19 +139,19 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     messageEmailStyle: {
-        color: '#FD5959',
+        color: Colors.error_msg,
     },
     messagePasswordStyle: {
-        color: '#FD5959'
+        color: Colors.error_msg,
     },
     logoContainer: {
-        height: '30%',
-        backgroundColor: "#262146",
+        height: '35%',
+        backgroundColor: Colors.primary900,
         alignItems: 'center',
         justifyContent: 'center',
     },
     container: {
-        backgroundColor: '#F8F8FF',
+        backgroundColor: Colors.secondary500,
     },
     titleContainer: {
         paddingTop: 40,
@@ -159,7 +162,7 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         lineHeight: 22,
         alignItems: "center",
-        color: "#5A5A89",
+        color: Colors.primary700,
         marginBottom: 52,
     },
     inputsContainer: {
@@ -167,22 +170,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 40,
     },
-    hr: {
+    separatorLine: {
         alignItems: 'center',
         justifyContent: 'center',
         marginLeft: 20,
         opacity: 0.1,
-        marginTop: '17%',
+        marginTop: '14%',
         width: '90%',
         height: 1,
-        backgroundColor: '#000000'
+        backgroundColor: Colors.black,
     },
     buttonsContainer: {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        gap: 12,
-        marginTop: '10%',
+        gap: 16,
+        marginTop: '7.5%',
 
     },
 })

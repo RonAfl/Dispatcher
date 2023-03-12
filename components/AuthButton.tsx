@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import React from 'react';
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Colors from '../utils/const/colors/Colors';
+import { SvgXml } from 'react-native-svg';
+import rightArrow from '../assets/svgxml/right-arrow';
 
 interface ButtonProps {
     label: string;
     bgcolor: string,
-    isImage: boolean,
+    isArrow: boolean,
     onPress: () => void;
 }
 
-const AuthButton: React.FC<ButtonProps> = ({ label, bgcolor, isImage, onPress }) => {
-    const buttonBackGround: ViewStyle = {
-        backgroundColor: bgcolor,
-        borderRadius: 10,
-        width: '90%',
-        height: 36
-    };
+const AuthButton: React.FC<ButtonProps> = ({ label, bgcolor, isArrow: isImage, onPress }) => {
+
 
     return (
-            <TouchableOpacity style={[styles.buttonStyle, buttonBackGround]} onPress={onPress}>
-                <Text style={styles.label}>{label}</Text>
-                {isImage && <Image source={require('../assets/images/RightArrow.png')}></Image>}
-            </TouchableOpacity>
+        <Pressable style={[styles.buttonStyle, { backgroundColor: bgcolor }]} onPress={onPress}>
+            <Text style={styles.label}>{label}</Text>
+            {isImage && <SvgXml xml={rightArrow} />}
+        </Pressable>
     )
 };
 
@@ -29,11 +27,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap:8,
+        gap: 8,
+        borderRadius: 10,
+        width: '90%',
+        height: 36
     },
     label: {
         textAlign: 'center',
-        color:'white',
+        color: Colors.white,
     }
 })
 

@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { Image, StyleSheet, TextInput, TouchableOpacity, View, ViewStyle } from 'react-native';
+import Colors from '../utils/const/colors/Colors';
+import { SvgXml } from 'react-native-svg';
+import {visiblePassword, unVisiblePassword, passwordIcon} from '../assets/svgxml/password-visibility';
 
 interface InputProps {
     label?: string,
     borderColor: string,
     isPassword: boolean,
-    value: string,
+    text: string,
     onChange: (value:string) => void
 }
 
-
-
-const AppInput: React.FC<InputProps> = ({ label, borderColor, isPassword, value, onChange}) => {
+const AppInput: React.FC<InputProps> = ({ label, borderColor, isPassword, text: value, onChange}) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(isPassword);
     
     const togglePasswordVisibility = () => {
@@ -22,7 +23,6 @@ const AppInput: React.FC<InputProps> = ({ label, borderColor, isPassword, value,
         borderColor: borderColor,
     };
 
-
     return (
         <View style={[styles.container, errorColor]} >
             <TextInput 
@@ -31,16 +31,12 @@ const AppInput: React.FC<InputProps> = ({ label, borderColor, isPassword, value,
             style={[styles.inputStyle, {color: borderColor}]} 
             placeholder={label}
             placeholderTextColor={borderColor} 
-            secureTextEntry={isPasswordVisible} />
+            secureTextEntry={isPasswordVisible}
+            keyboardType={ isPassword ? 'default' : 'email-address' } />
 
             {isPassword && <TouchableOpacity onPress={togglePasswordVisibility}>
-                <Image
-                    style={styles.imageStyle}
-                    source={
-                        isPasswordVisible
-                            ? require('../assets/images/eye-unvisible.png')
-                            : require('../assets/images/eye-visible.png')
-                    } />
+                {passwordIcon(styles.imageStyle, isPasswordVisible)}
+                
             </TouchableOpacity>}
         </View>
     )
@@ -57,17 +53,17 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         minHeight: 44,
         borderRadius: 4,
-        borderColor: '#5A5A89',
+        borderColor: Colors.primary700,
     },
     inputStyle: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: Colors.white,
         minHeight: 40,
         paddingLeft: 8,
         marginRight: 8,
         lineHeight: 22,
         letterSpacing: 0.25,
-        textDecorationColor: '#5A5A89',
+        textDecorationColor: Colors.primary700,
         height:40,
     },
     imageStyle: {

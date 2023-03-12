@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Platform, Image, StyleSheet, Text, View, Touchable } from 'react-native';
+import React from 'react';
+import {  Image, StyleSheet, Text, View } from 'react-native';
+import Colors from '../../../utils/const/colors/Colors';
+import { ConstantLabels } from '../../../utils/const/constantTexts/ConstantText';
 
 
 const Sort = () => {
@@ -7,7 +9,7 @@ const Sort = () => {
     return (
         <View style={styles.container}>
             <View style={styles.sortContainer}>
-                <Text style={styles.text}>Sort by</Text>
+                <Text style={styles.text}>{ConstantLabels.SORT_BY}</Text>
                 <Image source={require('../../../assets/images/dropdown.png')}></Image>
             </View>
             <Image style={styles.filter} source={require('../../../assets/images/filter.png')}></Image>
@@ -18,18 +20,18 @@ const Sort = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: Colors.white,
         paddingLeft: 16,
         paddingVertical: 11,
         flexDirection: 'row',
         alignItems:'center',
         justifyContent: 'space-between',
         borderWidth: 1,
-        borderColor: '#D9DBE9',
+        borderColor: Colors.secondary900,
     },
     text: {
         fontSize: 16,
-        color:'#5A5A89',
+        color: Colors.primary700,
         fontWeight:'400',
         lineHeight: 22,
         letterSpacing: 0.25,

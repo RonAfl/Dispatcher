@@ -1,34 +1,30 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
-import { News } from '../interfaces/News';
-
-
+import { Image, StyleSheet, Text, View, TouchableOpacity, Pressable } from 'react-native';
+import Colors from '../../../utils/const/colors/Colors';
+import { ConstantLabels } from '../../../utils/const/constantTexts/ConstantText';
+import { ArticleInterface } from '../interfaces/News';
+import { SvgXml } from 'react-native-svg';
+import rightArrow from '../../../assets/svgxml/right-arrow';
 interface ArticleProps {
-    article: News;
+    article: ArticleInterface;
 }
 
 const Article = (props: ArticleProps) => {
     const { article } = props;
 
     const handleClick = () => {
-        console.log('click Handled');
+        console.log('click Handled'); //still in work - validation click happens
     }
 
 
     return (
 
         <View style={styles.container}>
-            <View style={styles.articleImageContainer}>
-                <Image style={styles.image} source={{ uri: article.urlToImage }} />
-            </View>
+            <Image style={styles.image} source={{ uri: article.urlToImage }} />
             <View style={styles.dataContainer}>
-                <View>
-                    <Text style={styles.info}>{article.publishedAt}</Text>
-                </View>
+                <Text style={styles.info}>{article.publishedAt}</Text>
 
-                <View>
-                    <Text style={styles.title}>{article.title}</Text>
-                </View>
+                <Text style={styles.title}>{article.title}</Text>
 
                 <View style={styles.authorContainer}>
                     <Text style={styles.author}>{article.author}</Text>
@@ -38,12 +34,11 @@ const Article = (props: ArticleProps) => {
                     <Text style={styles.description}>{article.description}</Text>
                 </View>
 
-                <View style={styles.goToArticleContainer}>
-                    <TouchableOpacity style={styles.buttonContainer} onPress={handleClick}>
-                        <Text style={styles.buttonText}>Navigate to dispatch</Text>
-                        <Image source={require('../../../assets/images/RightArrow.png')}></Image>
-                    </TouchableOpacity>
-                </View>
+                <Pressable style={styles.buttonContainer} onPress={handleClick}>
+                    <Text style={styles.buttonText}>{ConstantLabels.NAVIGATE_DISPATCH}</Text>
+                    <SvgXml xml={rightArrow} />
+
+                </Pressable>
             </View>
         </View>
     )
@@ -55,82 +50,78 @@ const styles = StyleSheet.create({
         flex: 1,
         borderWidth: 1,
         borderRadius: 20,
-        borderColor: '#D9DBE9',
-        backgroundColor:'#FFFFFF'
+        borderColor: Colors.secondary900,
+        backgroundColor: Colors.white,
 
     },
-    dataContainer:{
-        paddingHorizontal:16,
-        paddingTop:9,
-        paddingBottom:12,
-        
+    dataContainer: {
+        paddingHorizontal: 16,
+        paddingTop: 9,
+        paddingBottom: 12,
+
     },
     image: {
         height: 160,
         width: '100%',
         borderTopLeftRadius: 19,
         borderTopRightRadius: 19,
-     
-    },
-    articleImageContainer: {
+
     },
 
+
     info: {
-        fontSize:14,
+        fontSize: 14,
         fontWeight: '400',
         lineHeight: 22,
-        color: '#5A5A89'
+        color: Colors.primary700,
     },
 
     title: {
-        paddingTop:10,
-        fontWeight:'700',
+        paddingTop: 10,
+        fontWeight: '700',
         fontSize: 18,
-        color:'#14142B',
+        color: Colors.title_article,
     },
 
     authorContainer: {
-        paddingTop:10,
+        paddingTop: 10,
     },
 
-    author:{
-        fontWeight:'400',
-        fontSize:14,
-        lineHeight:22,
-        color: '#5A5A89'
+    author: {
+        fontWeight: '400',
+        fontSize: 14,
+        lineHeight: 22,
+        color: Colors.primary700
 
     },
 
     articleContentContainer: {
-        paddingTop:10,
+        paddingTop: 10,
     },
 
     description: {
-        color: '#5A5A89',
+        color: Colors.primary700,
     },
 
-    goToArticleContainer: {
-
-    },
 
     buttonContainer: {
-        paddingHorizontal:45,
+        paddingHorizontal: 45,
         paddingVertical: 5,
-        alignItems:'center',
+        alignItems: 'center',
         justifyContent: 'space-around',
         flexDirection: 'row',
-        borderRadius:20,
-        backgroundColor: '#0058B9',
+        borderRadius: 20,
+        backgroundColor: Colors.primary500,
         marginTop: 20,
     },
 
     buttonText: {
-       fontSize: 14,
-       fontWeight: '500',
-       lineHeight: 26,
-       letterSpacing: 0.25,
-       textTransform: 'uppercase',
-       color: '#FFFFFF'
+        fontSize: 14,
+        fontWeight: '500',
+        lineHeight: 26,
+        letterSpacing: 0.25,
+        textTransform: 'uppercase',
+        color: Colors.white,
     }
 })
 

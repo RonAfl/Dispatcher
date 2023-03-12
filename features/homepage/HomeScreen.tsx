@@ -5,7 +5,7 @@ import MainContent from './components/MainContent';
 import Navbar from './components/Navbar';
 import Sort from './components/Sort';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
 
     return (
         <View style={styles.container}>
@@ -18,9 +18,9 @@ const HomeScreen = () => {
                 <MainContent/>
             </View>
 
-            <View style={styles.bottomViewContainer}>
+            {/* <View style={styles.bottomViewContainer}>
                 <Navbar></Navbar>
-            </View>
+            </View> */}
         </View>
     )
 };
