@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity, Pressable } from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Colors from '../../../utils/const/colors/Colors';
 import { ConstantLabels } from '../../../utils/const/constantTexts/ConstantText';
 import { ArticleInterface } from '../interfaces/News';
@@ -34,11 +34,11 @@ const Article = (props: ArticleProps) => {
                     <Text style={styles.description}>{article.description}</Text>
                 </View>
 
-                <Pressable style={styles.buttonContainer} onPress={handleClick}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={handleClick}>
                     <Text style={styles.buttonText}>{ConstantLabels.NAVIGATE_DISPATCH}</Text>
                     <SvgXml xml={rightArrow} />
 
-                </Pressable>
+                </TouchableOpacity>
             </View>
         </View>
     )
