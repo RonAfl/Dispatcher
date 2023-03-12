@@ -17,7 +17,7 @@ const Header = () => {
         <View style={styles.container}>
             <View style={styles.imagesContainer}>
                 {getLogo(true)}
-                <View style={styles.imagesContainer}>
+                <View style={styles.images1Container}>
                     {getSearchIcon()}
                     <View style={styles.notifications}>
                         {getHeaderIcon(!notified)}
@@ -38,6 +38,13 @@ const styles = StyleSheet.create({
 
     },
     imagesContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingRight: 8,
+        gap: 16,
+    },
+    images1Container:{
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
