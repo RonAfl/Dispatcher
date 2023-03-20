@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import Colors from '../../../utils/const/colors/Colors';
-import { SvgXml } from 'react-native-svg';
 import getLogo from '../../../assets/svgxml/logo';
 import getHeaderIcon from '../../../assets/svgxml/headerIcons';
 import { getSearchIcon } from '../../../assets/svgxml/headerIcons';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store/store';
 
 const Header = () => {
-    const [notified, setNotified] = useState(false);
-
-    const handleNotifications = () => {
-        setNotified(!notified);
+    const isNewlike: boolean = useSelector((state: RootState) => state.favorites.newNotification);
+    const [notified, setNotified] = useState(isNewlike);
+    
+    const handleNotificationsPressed = () =>{
+        setNotified(false);
     }
 
     return (
@@ -19,12 +21,11 @@ const Header = () => {
                 {getLogo(true)}
                 <View style={styles.images1Container}>
                     {getSearchIcon()}
-                    <View style={styles.notifications}>
-                        {getHeaderIcon(!notified)}
-                    </View>
+                    <Pressable style={styles.notifications} onPress={handleNotificationsPressed}>
+                        {getHeaderIcon(notified)}
+                    </Pressable>
                 </View>
             </View>
-
         </View>
     )
 };
@@ -35,7 +36,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.primary900,
         paddingLeft: 16,
         paddingVertical: 21,
-
     },
     imagesContainer: {
         flexDirection: 'row',

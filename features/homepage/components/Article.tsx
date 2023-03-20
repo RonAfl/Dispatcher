@@ -1,26 +1,71 @@
-import React from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, View, Pressable } from 'react-native';
 import Colors from '../../../utils/const/colors/Colors';
 import { ConstantLabels } from '../../../utils/const/constantTexts/ConstantText';
-import { ArticleInterface } from '../interfaces/News';
+import { ArticleInterface, FavsArticleInterface } from '../interfaces/News';
 import { SvgXml } from 'react-native-svg';
 import rightArrow from '../../../assets/svgxml/right-arrow';
+import { likedArticle, unlikedArticle } from '../../../assets/svgxml/likedArticle';
+import { useDispatch, useSelector } from 'react-redux';
+import { isFavorite, likeClicked, unlikeClicked } from '../../../redux/slices/favsSlice';
+import { RootState } from '../../../redux/store/store';
+
 interface ArticleProps {
     article: ArticleInterface;
 }
 
 const Article = (props: ArticleProps) => {
-    const { article } = props;
 
-    const handleClick = () => {
+    const { article } = props;
+    const dispatch = useDispatch();
+    const data = useSelector((state: RootState) => state.favorites.data);
+    const [liked, setLiked] = useState(false);
+
+    useEffect(() => {
+        let ok;
+        data.forEach((item) => {
+            if (item.source.id === article.source.id) { 
+                setLiked(true);
+                ok=true;
+            }
+        })
+        if(ok!==true)
+        {
+            setLiked(false);
+        }
+
+    }, [data])
+
+
+    const handleDispatchClicked = () => {
         console.log('click Handled'); //still in work - validation click happens
     }
 
 
-    return (
+    const handleLikeClicked = () => {
+        setLiked(!liked);
 
+        if (!liked) {
+            let fav: FavsArticleInterface = {
+                title: article.title,
+                urlToImage: article.urlToImage,
+                source: article.source
+            }
+            dispatch(likeClicked(fav));
+        }
+        else {
+            dispatch(unlikeClicked(article));
+        }
+    }
+
+    return (
         <View style={styles.container}>
-            <Image style={styles.image} source={{ uri: article.urlToImage }} />
+            <View style={styles.imageContainer}>
+                <Image style={styles.image} source={{ uri: article.urlToImage }} />
+                <Pressable style={styles.likedImg} onPress={handleLikeClicked}>
+                    <SvgXml xml={liked ? likedArticle : unlikedArticle}></SvgXml>
+                </Pressable>
+            </View>
             <View style={styles.dataContainer}>
                 <Text style={styles.info}>{article.publishedAt}</Text>
 
@@ -34,11 +79,11 @@ const Article = (props: ArticleProps) => {
                     <Text style={styles.description}>{article.description}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.buttonContainer} onPress={handleClick}>
+                <Pressable style={styles.buttonContainer} onPress={handleDispatchClicked}>
                     <Text style={styles.buttonText}>{ConstantLabels.NAVIGATE_DISPATCH}</Text>
                     <SvgXml xml={rightArrow} />
 
-                </TouchableOpacity>
+                </Pressable>
             </View>
         </View>
     )
@@ -60,33 +105,36 @@ const styles = StyleSheet.create({
         paddingBottom: 12,
 
     },
+    imageContainer: {
+        position: 'relative'
+    },
     image: {
         height: 160,
         width: '100%',
         borderTopLeftRadius: 19,
         borderTopRightRadius: 19,
-
+        position: 'relative',
     },
-
-
+    likedImg: {
+        position: 'absolute',
+        top: 16,
+        right: 16
+    },
     info: {
         fontSize: 14,
         fontWeight: '400',
         lineHeight: 22,
         color: Colors.primary700,
     },
-
     title: {
         paddingTop: 10,
         fontWeight: '700',
         fontSize: 18,
         color: Colors.title_article,
     },
-
     authorContainer: {
         paddingTop: 10,
     },
-
     author: {
         fontWeight: '400',
         fontSize: 14,

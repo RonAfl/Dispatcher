@@ -7,7 +7,6 @@ import { Screen } from '../../utils/navigation/Screens/Screens';
 import Colors from '../../utils/const/colors/Colors';
 import { ConstantLabels, ConstantText } from '../../utils/const/constantTexts/ConstantText';
 import getLogo from '../../assets/svgxml/logo';
-import { SvgXml } from 'react-native-svg';
 
 
 import { useNavigation } from '@react-navigation/native';

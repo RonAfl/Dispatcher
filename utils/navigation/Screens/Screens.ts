@@ -6,5 +6,8 @@ export enum Screen{
     PROFILE_PAGE = 'Profile',
     Notifications = 'Notifications',
     Tabs= 'Tabs',
-    Dispatch = 'Dispatch'
+    Dispatch = 'Dispatch',
+    Settings = 'Settings',
+    Terms_And_Privacy = 'TermsNprivacy',
+    Edit_Profile = 'Edit'
 }

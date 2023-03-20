@@ -28,9 +28,9 @@ export const AppNavigation = () => {
         const unsubscribeAuth = auth().onAuthStateChanged(user => {
             if (user) {
                 dispatch(login({ email: user.email }));
-                navigation.navigate('Auth');
-            } else {
                 navigation.navigate('Tabs');
+            } else {
+                navigation.navigate('Auth');
             }
         });
         return unsubscribeAuth;

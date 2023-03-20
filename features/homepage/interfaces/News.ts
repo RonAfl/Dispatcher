@@ -6,5 +6,12 @@ export interface ArticleInterface {
     urlToImage: string;
     publishedAt: string;
     content: string;
-    source: {id:string | undefined, name: string }
+    source: {id:string | undefined, name: string },
+    isLiked: boolean,
   }
+
+export interface FavsArticleInterface {
+  title: string;
+  urlToImage: string;
+  source: {id:string | undefined, name: string }
+}

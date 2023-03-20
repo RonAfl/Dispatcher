@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Alert, Image, StyleSheet, Text, View, KeyboardAvoidingView, ViewStyle } from 'react-native';
+import { Alert, StyleSheet, Text, View, KeyboardAvoidingView, ViewStyle } from 'react-native';
 import AppInput from '../../components/AppInput'
 import AuthButton from '../../components/AuthButton';
 import auth from '@react-native-firebase/auth';
 import { Screen } from '../../utils/navigation/Screens/Screens';
 import Colors from '../../utils/const/colors/Colors';
 import { ConstantLabels, ConstantText } from '../../utils/const/constantTexts/ConstantText';
-import { SvgXml } from 'react-native-svg';
-import logoXml from '../../assets/svgxml/logo';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppStackParams } from '../../utils/navigation/AppNavigation';
@@ -44,6 +42,9 @@ const RegisterScreen = () => {
 
         if (isPasswordValid && isEmailValid) {
             auth().createUserWithEmailAndPassword(email, password).then(res => {
+                res.user.updateProfile({
+                    displayName:'yuda'
+                });
 
                 navigation.navigate('Tabs');
                 Alert.alert(ConstantText.SUCCESS, ConstantText.SUCCESS_SIGNUP_MSG);

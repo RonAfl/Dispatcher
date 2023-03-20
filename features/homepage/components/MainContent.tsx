@@ -6,6 +6,7 @@ import { fetchNews } from '../../../redux/thunks/newsThunk';
 import Article from './Article';
 import { ArticleInterface } from '../interfaces/News';
 import Colors from '../../../utils/const/colors/Colors';
+import auth from '@react-native-firebase/auth';
 
 const MainContent = () => {
     const [lastLoginData, setlastLoginData] = useState('');
@@ -18,7 +19,7 @@ const MainContent = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        setlastLoginData('03:50 PM, 09.03.2022');
+        setlastLoginData(auth().currentUser?.metadata.lastSignInTime);
     }, []);
 
     return (

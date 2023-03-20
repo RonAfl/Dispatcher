@@ -4,6 +4,7 @@ export interface AuthState {
     email: string;
     isLoggedIn: boolean;
     errMessage: string;
+    
 }
 
 const initialState: AuthState = {

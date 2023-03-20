@@ -11,6 +11,7 @@ const Colors = {
     secondary500: '#F8F8FF',
     secondary700: '#F3F3FF',
     secondary900: '#D9DBE9',
+    secondary2900: '#575565',
     text: '#5A5A89',
     white: '#FFFFFF',
     light_gray: '#FAFAFA',
@@ -18,6 +19,9 @@ const Colors = {
     black: '#000000',
     gray: 'gray',
     title_article: '#14142B',
+    prof_bg: '#E5E5E5',
+    prof_backText: '#D2D2D2',
+    settings_separatorLine: '#E3E3E3',
     
   };
   export default Colors;

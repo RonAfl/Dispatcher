@@ -8,12 +8,13 @@ import { Screen } from '../Screens/Screens';
 import Colors from '../../const/colors/Colors';
 import Icon from './components/icon';
 import { StyleSheet } from 'react-native';
+import { ProfileNavigator } from '../../../features/homepage/components/tabs/profile/ProfileNavigator';
 
 
 export type AppTabsParams = {
-  Home: any;
-  Profile: any;
-  Favorites: any;
+  Home: undefined;
+  Profile: undefined;
+  Favorites: undefined;
 };
 
 const AppTabs = createBottomTabNavigator<AppTabsParams>();
@@ -46,7 +47,7 @@ const AppTabsScreen = () => {
       })}>
       <AppTabs.Screen
         name={Screen.PROFILE_PAGE}
-        component={ProfileScreen}
+        component={ProfileNavigator}
         options={{ headerShown: false, tabBarShowLabel: false }}
       />
       <AppTabs.Screen
