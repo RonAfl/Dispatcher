@@ -1,25 +1,25 @@
 import React from "react";
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import { getLeftArrow } from "../../../../../../assets/svgxml/topBarIcons";
+import { getLeftArrow } from "../../../../../assets/svgxml/topBarIcons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ProfileStackParams } from "../../../../ProfileScreen";
-import Colors from "../../../../../../utils/const/colors/Colors";
-import { Screen } from "../../../../../../utils/navigation/Screens/Screens";
+import { ProfileStackParams } from "../../../ProfileScreen";
+import Colors from "../../../../../utils/const/colors/Colors";
+import { Screen } from "../../../../../utils/navigation/Screens/Screens";
+import { ConstantLabels } from "../../../../../utils/const/constantTexts/ConstantText";
 
-
-const TopBar = () => {
+const NotificationsTopBar = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileStackParams>>();
 
     const onGoBackPressed = () => {
-            navigation.navigate(Screen.PROFILE_PAGE);
+            navigation.navigate(Screen.HOME_PAGE);
     }
 
     return (
         <View style={styles.container}>
             <Pressable style={styles.goBack} onPress={onGoBackPressed}>
                 {getLeftArrow()}
-                <Text style={styles.backText}>Back</Text>
+                <Text style={styles.backText}>{ConstantLabels.GO_BACK}</Text>
             </Pressable>
         </View>
     )
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default TopBar;
+export default NotificationsTopBar;

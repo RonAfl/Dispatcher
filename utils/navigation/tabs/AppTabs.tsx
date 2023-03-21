@@ -1,15 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../../features/homepage/HomeScreen';
-import ProfileScreen from '../../../features/homepage/ProfileScreen';
 import FavoritesScreen from '../../../features/homepage/FavoritesScreen';
 import { Screen } from '../Screens/Screens';
-//import Octicons from 'react-native-vector-icons/Octicons';
 import Colors from '../../const/colors/Colors';
 import Icon from './components/icon';
 import { StyleSheet } from 'react-native';
 import { ProfileNavigator } from '../../../features/homepage/components/tabs/profile/ProfileNavigator';
-
 
 export type AppTabsParams = {
   Home: undefined;
@@ -26,7 +23,6 @@ const AppTabsScreen = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
           let iconName: string = '';
-
           if (route.name === Screen.HOME_PAGE) {
             iconName = Screen.HOME_PAGE;
           } else if (route.name === Screen.FAV_PAGE) {
@@ -34,7 +30,6 @@ const AppTabsScreen = () => {
           } else if (route.name === Screen.PROFILE_PAGE) {
             iconName = Screen.PROFILE_PAGE;
           }
-
           return (
             <Icon iconName={iconName} style={styles.iconStyle} focused={focused} />
           )

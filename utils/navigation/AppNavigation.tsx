@@ -6,9 +6,10 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slices/authSlice';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AppTabsScreen from './tabs/AppTabs';
+import { Screen } from './Screens/Screens';
+import Notifications from '../../features/homepage/components/tabs/homepage/Notifications';
 
-
-
+const AppStack = createNativeStackNavigator<AppStackParams>();
 export type AppStackParams = {
     Auth: undefined,
     Tabs: undefined,
@@ -16,13 +17,9 @@ export type AppStackParams = {
     Dispatch: undefined,
 }
 
-const AppStack = createNativeStackNavigator<AppStackParams>();
-
 export const AppNavigation = () => {
-
     const navigation = useNavigation<NativeStackNavigationProp<AppStackParams>>();
     const dispatch = useDispatch();
-
 
     useEffect(() => {
         const unsubscribeAuth = auth().onAuthStateChanged(user => {
@@ -48,12 +45,12 @@ export const AppNavigation = () => {
                 component={AppTabsScreen}
                 options={{ headerShown: false}}
             />
-            {/* <AppStack.Screen
+            <AppStack.Screen
                 name={Screen.Notifications}
-                component={HomeScreen} //change to correct screen once built
+                component={Notifications} //change to correct screen once built
                 options={{ headerShown: false}}
             />
-              <AppStack.Screen
+            {/*  <AppStack.Screen
                 name={Screen.Dispatch}
                 component={HomeScreen} //change to correct screen once built
                 options={{ headerShown: false}}

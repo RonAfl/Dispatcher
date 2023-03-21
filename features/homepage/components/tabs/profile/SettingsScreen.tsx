@@ -5,6 +5,8 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import getToggle from "../../../../../assets/svgxml/toggleSettings";
 import Colors from "../../../../../utils/const/colors/Colors";
+import { ConstantLabels, ConstantText } from "../../../../../utils/const/constantTexts/ConstantText";
+import { Screen } from "../../../../../utils/navigation/Screens/Screens";
 import TopBar from "./components/TopBar";
 import { ProfileStackParams } from "./ProfileNavigator";
 
@@ -35,16 +37,16 @@ const SettingsScreen = () => {
 
     return (
         <View style={styles.container} >
-            <TopBar />
+            <TopBar/>
             <View style={styles.mainContentContainer}>
-                <Text style={styles.titleText}>Settings</Text>
-                <Text style={styles.searchResultsTitle}>Search results</Text>
+                <Text style={styles.titleText}>{ConstantLabels.SETTINGS}</Text>
+                <Text style={styles.searchResultsTitle}>{ConstantLabels.SEARCH_RESULTS}</Text>
                 <View style={styles.saveFiltersSection}>
                     <View style={styles.saveFiltersTextsContainer}>
-                        <Text style={styles.subTitle}>Save filters</Text>
+                        <Text style={styles.subTitle}>{ConstantLabels.SAVE_FILTERS}</Text>
                         <View style={styles.smallGap}>
-                            <Text style={styles.subText}>Alow us to save filters when entring</Text>
-                            <Text style={styles.subText}>back to the app</Text>
+                            <Text style={styles.subText}>{ConstantText.ALLOW_FILTERS_SAVE}</Text>
+                            <Text style={styles.subText}>{ConstantText.BACK_TO_APP}</Text>
                         </View>
                     </View>
                     <Pressable onPress={() => setFilters(!filters)}>

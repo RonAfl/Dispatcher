@@ -10,31 +10,28 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppStackParams } from '../../utils/navigation/AppNavigation';
 import getLogo from '../../assets/svgxml/logo';
+import RegisterPasswordValidation from '../../utils/functions/RegisterPasswordValidation';
+import emailValidation from '../../utils/functions/emailValidation';
 
 const RegisterScreen = () => {
-
-    const navigation = useNavigation<NativeStackNavigationProp<AppStackParams>>();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const emailRegex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-
     const [emailColor, setEmailColor] = useState(Colors.black);
     const [passwordColor, setPasswordColor] = useState(Colors.black);
-
     const [emailErrorMessage, setEmailErrorMessage] = useState('');
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
-
     const [isHiddenMail, setIsHiddenMail] = useState(true);
     const [isHiddenPass, setisHiddenPass] = useState(true);
 
+    const navigation = useNavigation<NativeStackNavigationProp<AppStackParams>>();
     const handleLoginPressed = () => {
         navigation.navigate(Screen.LOGIN_PAGE);
     }
 
     const handleSignUpPressed = () => {
         const isEmailValid: boolean = emailValidation(email);
-        const isPasswordValid: boolean = passwordValidation(password, confirmPassword);
+        const isPasswordValid: boolean = RegisterPasswordValidation(password, confirmPassword);
         setIsHiddenMail(true);
         setisHiddenPass(true);
         setEmailColor(Colors.black);
@@ -43,12 +40,10 @@ const RegisterScreen = () => {
         if (isPasswordValid && isEmailValid) {
             auth().createUserWithEmailAndPassword(email, password).then(res => {
                 res.user.updateProfile({
-                    displayName:'yuda'
+                    displayName: 'yuda'
                 });
-
                 navigation.navigate('Tabs');
                 Alert.alert(ConstantText.SUCCESS, ConstantText.SUCCESS_SIGNUP_MSG);
-
             }).catch((error) => {
                 if (error.code === ConstantText.EMAIL_IN_USE) {
                     setIsHiddenMail(false);
@@ -84,14 +79,6 @@ const RegisterScreen = () => {
         }
     }
 
-    const emailValidation = (email: string): boolean => {
-        return emailRegex.test(email);
-    }
-
-    const passwordValidation = (password: string, rePassword: string): boolean => {
-        return ((password === rePassword) && password.length >= ConstantText.PASSWORD_MAX_LENGTH);
-    }
-
     const unHiddenStyle: ViewStyle = {
         display: 'flex',
         alignItems: 'flex-start',
@@ -101,35 +88,29 @@ const RegisterScreen = () => {
 
     const HiddenStyle: ViewStyle = {
         display: 'none',
-
     };
 
     return (
         <KeyboardAvoidingView style={styles.viewsContainer} behavior='height' keyboardVerticalOffset={100}>
             <View style={styles.logoContainer}>
-            {getLogo(false)}
-
+                {getLogo(false)}
             </View>
             <View style={styles.container}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{ConstantLabels.SIGN_UP}</Text>
                 </View>
-
                 <View style={styles.inputsContainer}>
-
                     <AppInput label={ConstantLabels.EMAIL} borderColor={emailColor} isPassword={false} text={email} onChange={setEmail} ></AppInput>
                     <Text style={[styles.messageEmailStyle, isHiddenMail ? HiddenStyle : unHiddenStyle]}>{emailErrorMessage}</Text>
-
                     <AppInput label={ConstantLabels.PASSWORD} borderColor={passwordColor} isPassword={true} text={password} onChange={setPassword} />
                     <Text style={[styles.messagePasswordStyle, isHiddenPass ? HiddenStyle : unHiddenStyle]}>{passwordErrorMessage}</Text>
                     <AppInput label={ConstantLabels.CONFIRM_PASSWORD} borderColor={passwordColor} isPassword={true} text={confirmPassword} onChange={setConfirmPassword} />
                 </View>
                 <View style={styles.separatorLine} />
                 <View style={styles.buttonsContainer}>
-                    <AuthButton label={ConstantLabels.SIGN_UP.toUpperCase()} bgcolor={Colors.button_primary} isArrow={true} onPress={handleSignUpPressed} />
-                    <AuthButton label={ConstantLabels.LOGIN.toUpperCase()} bgcolor={Colors.button_secondary} isArrow={false} onPress={handleLoginPressed} />
+                    <AuthButton label={ConstantLabels.SIGN_UP.toUpperCase()} bgcolor={Colors.button_primary} isImage={true} onPress={handleSignUpPressed} />
+                    <AuthButton label={ConstantLabels.LOGIN.toUpperCase()} bgcolor={Colors.button_secondary} isImage={false} onPress={handleLoginPressed} />
                 </View>
-
             </View>
         </KeyboardAvoidingView>
     )
@@ -187,7 +168,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 16,
         marginTop: '7.5%',
-
     },
 })
 

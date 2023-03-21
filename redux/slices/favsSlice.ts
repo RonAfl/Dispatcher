@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FavsArticleInterface } from '../../features/homepage/interfaces/News';
 
-interface NotificationInterface {
+export interface NotificationInterface {
     id: string,
 }
 
@@ -33,11 +33,10 @@ export const favSlice = createSlice({
         unlikeClicked: (state, action: PayloadAction<FavsArticleInterface>) => {
             let id: string;
             if (action.payload.source.id !== undefined) {
-                id = action.payload.source.id;
+                id = action.payload.urlToImage;
             }
-            let filtered = state.data.filter(item => item.source.id !== id);
+            let filtered = state.data.filter(item => item.urlToImage !== id);
             state.data = filtered;
-            state.unlike = !state.unlike;
         },
         notificationsOff: (state) => {
             state.newNotification = false;
@@ -47,25 +46,10 @@ export const favSlice = createSlice({
                 if (item.source.id === action.payload.source.id) {
                     return true;
                 }
-            
             })
-            
         },
-        doesExist: (state, action: PayloadAction<FavsArticleInterface>) => {
-
-            state.data.forEach((item) => {
-                if (item.urlToImage === action.payload.urlToImage) {
-                    return true
-                };
-
-            }
-            )
-
-        }
     }
-}
-)
-
+})
 
 export const { likeClicked, unlikeClicked, notificationsOff, isFavorite } = favSlice.actions;
 export default favSlice.reducer;

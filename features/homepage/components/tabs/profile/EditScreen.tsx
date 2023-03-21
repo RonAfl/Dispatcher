@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
 import Colors from "../../../../../utils/const/colors/Colors";
+import { Screen } from "../../../../../utils/navigation/Screens/Screens";
 import EditTopBar from "./components/EditTopBar";
 import ProfilePage from "./components/ProfilePage";
 import TopBar from "./components/TopBar";
@@ -32,7 +33,6 @@ const EditScreen = () => {
     return (
         <View>
             {editingProfile ? <EditTopBar /> : <TopBar/>}
-            
             <ProfilePage/>
 
         </View>

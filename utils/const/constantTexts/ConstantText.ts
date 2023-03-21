@@ -1,5 +1,5 @@
 export const ConstantText = {
-    PASSWORD_MAX_LENGTH: 8,
+    PASSWORD_MIN_LENGTH: 8,
     WRONG_PASSWORD: 'auth/wrong-password',
     WRONG_PASSWORD_ERR_MSG: 'Password is incorrect',
     WRONG_EMAIL: 'auth/user-not-found',
@@ -28,8 +28,11 @@ export const ConstantText = {
     PROFILE_EDIT: 'Edit profile',
     PROFILE_INPUT_LABEL_NAME: 'Name',
     PROFILE_INPUT_LABEL_EMAIL: 'Email',
-
-
+    NOTIFICATION_MSG: 'Notification text about a new article from a tag you liked, two lines of text.',
+    TOP_HEADLINES: 'Top Headlines in USA',
+    NOTIFICATIONS: 'Notifications',
+    ALLOW_FILTERS_SAVE:'Alow us to save filters when entering',
+    BACK_TO_APP: 'back to the app',
 }
 
 export const ConstantLabels = {
@@ -40,5 +43,13 @@ export const ConstantLabels = {
     CONFIRM_PASSWORD: 'Re-Enter Password',
     NAVIGATE_DISPATCH: 'Navigate to dispatch',
     SORT_BY: 'Sort by',
-
+    LOGOUT: 'Logout',
+    TERMS_N_PRIVACY: 'Terms & privacy',
+    SETTINGS: 'Settings',
+    EDIT_PROFILE: 'Edit my profile',
+    SAVED_ARTICLES: 'Saved articles',
+    LAST_LOGIN: 'Last Login: ',
+    GO_BACK: 'Back',
+    SEARCH_RESULTS: 'Search results',
+    SAVE_FILTERS: 'Save filters',
 }

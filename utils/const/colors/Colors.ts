@@ -22,6 +22,5 @@ const Colors = {
     prof_bg: '#E5E5E5',
     prof_backText: '#D2D2D2',
     settings_separatorLine: '#E3E3E3',
-    
   };
   export default Colors;

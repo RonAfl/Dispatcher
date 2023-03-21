@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, TextInput, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View, ViewStyle } from 'react-native';
 import Colors from '../utils/const/colors/Colors';
-import { SvgXml } from 'react-native-svg';
-import {visiblePassword, unVisiblePassword, passwordIcon} from '../assets/svgxml/password-visibility';
+import { passwordIcon} from '../assets/svgxml/password-visibility';
 
 interface InputProps {
     label?: string,
@@ -32,12 +31,12 @@ const AppInput: React.FC<InputProps> = ({ label, borderColor, isPassword, text: 
             placeholder={label}
             placeholderTextColor={borderColor} 
             secureTextEntry={isPasswordVisible}
-            keyboardType={ isPassword ? 'default' : 'email-address' } />
-
-            {isPassword && <TouchableOpacity onPress={togglePasswordVisibility}>
+            keyboardType={ isPassword ? 'default' : 'email-address' } 
+            />
+            {isPassword && <Pressable onPress={togglePasswordVisibility}>
                 {passwordIcon(styles.imageStyle, isPasswordVisible)}
                 
-            </TouchableOpacity>}
+            </Pressable>}
         </View>
     )
 };

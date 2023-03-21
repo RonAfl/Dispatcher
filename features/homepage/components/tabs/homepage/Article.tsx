@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, View, Pressable } from 'react-native';
-import Colors from '../../../utils/const/colors/Colors';
-import { ConstantLabels } from '../../../utils/const/constantTexts/ConstantText';
-import { ArticleInterface, FavsArticleInterface } from '../interfaces/News';
+import Colors from '../../../../../utils/const/colors/Colors';
+import { ConstantLabels } from '../../../../../utils/const/constantTexts/ConstantText';
+import { ArticleInterface, FavsArticleInterface } from '../../../interfaces/News';
 import { SvgXml } from 'react-native-svg';
-import rightArrow from '../../../assets/svgxml/right-arrow';
-import { likedArticle, unlikedArticle } from '../../../assets/svgxml/likedArticle';
+import getRightArrow from '../../../../../assets/svgxml/right-arrow';
+import { likedArticle, unlikedArticle } from '../../../../../assets/svgxml/likedArticle';
 import { useDispatch, useSelector } from 'react-redux';
-import { isFavorite, likeClicked, unlikeClicked } from '../../../redux/slices/favsSlice';
-import { RootState } from '../../../redux/store/store';
+import { likeClicked, unlikeClicked } from '../../../../../redux/slices/favsSlice';
+import { RootState } from '../../../../../redux/store/store';
 
 interface ArticleProps {
     article: ArticleInterface;
 }
 
 const Article = (props: ArticleProps) => {
-
+    const [liked, setLiked] = useState(false);
     const { article } = props;
     const dispatch = useDispatch();
-    const data = useSelector((state: RootState) => state.favorites.data);
-    const [liked, setLiked] = useState(false);
+    const favArticles = useSelector((state: RootState) => state.favorites.data);
 
     useEffect(() => {
         let ok;
-        data.forEach((item) => {
-            if (item.source.id === article.source.id) { 
+        favArticles.forEach((item) => {
+            if (item.urlToImage === article.urlToImage) { 
                 setLiked(true);
                 ok=true;
             }
@@ -34,17 +33,14 @@ const Article = (props: ArticleProps) => {
             setLiked(false);
         }
 
-    }, [data])
-
+    }, [favArticles])
 
     const handleDispatchClicked = () => {
         console.log('click Handled'); //still in work - validation click happens
     }
 
-
     const handleLikeClicked = () => {
         setLiked(!liked);
-
         if (!liked) {
             let fav: FavsArticleInterface = {
                 title: article.title,
@@ -68,21 +64,16 @@ const Article = (props: ArticleProps) => {
             </View>
             <View style={styles.dataContainer}>
                 <Text style={styles.info}>{article.publishedAt}</Text>
-
                 <Text style={styles.title}>{article.title}</Text>
-
                 <View style={styles.authorContainer}>
                     <Text style={styles.author}>{article.author}</Text>
                 </View>
-
                 <View style={styles.articleContentContainer}>
                     <Text style={styles.description}>{article.description}</Text>
                 </View>
-
                 <Pressable style={styles.buttonContainer} onPress={handleDispatchClicked}>
                     <Text style={styles.buttonText}>{ConstantLabels.NAVIGATE_DISPATCH}</Text>
-                    <SvgXml xml={rightArrow} />
-
+                    {getRightArrow()}
                 </Pressable>
             </View>
         </View>
@@ -142,16 +133,12 @@ const styles = StyleSheet.create({
         color: Colors.primary700
 
     },
-
     articleContentContainer: {
         paddingTop: 10,
     },
-
     description: {
         color: Colors.primary700,
     },
-
-
     buttonContainer: {
         paddingHorizontal: 45,
         paddingVertical: 5,
@@ -162,7 +149,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.primary500,
         marginTop: 20,
     },
-
     buttonText: {
         fontSize: 14,
         fontWeight: '500',

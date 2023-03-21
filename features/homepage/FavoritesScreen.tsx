@@ -4,9 +4,9 @@ import { FlatList } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
 import Colors from '../../utils/const/colors/Colors';
+import { ConstantLabels } from '../../utils/const/constantTexts/ConstantText';
 import FavArticle from './components/tabs/favorites/FavArticle';
 import { FavsArticleInterface } from './interfaces/News';
-
 
 const FavoritesScreen = () => {
     const favArticles: FavsArticleInterface[] = useSelector((state: RootState) => state.favorites.data);
@@ -18,7 +18,7 @@ const FavoritesScreen = () => {
                     data={favArticles}
                     keyExtractor={(item) => item.source.id + item.source.name + item.title + item.urlToImage}
                     renderItem={({ item }) => <FavArticle article={item} />}
-                    ListHeaderComponent={<Text style={styles.mainTitle}>Saved articles</Text>}
+                    ListHeaderComponent={<Text style={styles.mainTitle}>{ConstantLabels.SAVED_ARTICLES}</Text>}
                     ItemSeparatorComponent={() => <View style={styles.articleGaps} />}
                 />
             </View>
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 20,
         paddingHorizontal:16,
-        
     },
     mainTitle:{
         fontSize: 24,

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store/store';
-import { fetchNews } from '../../../redux/thunks/newsThunk';
+import { RootState } from '../../../../../redux/store/store';
+import { fetchNews } from '../../../../../redux/thunks/newsThunk';
 import Article from './Article';
-import { ArticleInterface } from '../interfaces/News';
-import Colors from '../../../utils/const/colors/Colors';
+import { ArticleInterface } from '../../../interfaces/News';
+import Colors from '../../../../../utils/const/colors/Colors';
 import auth from '@react-native-firebase/auth';
+import { ConstantLabels, ConstantText } from '../../../../../utils/const/constantTexts/ConstantText';
 
 const MainContent = () => {
     const [lastLoginData, setlastLoginData] = useState('');
     const news: ArticleInterface[] = useSelector((state: RootState) => state.news.data);
-
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -26,16 +26,16 @@ const MainContent = () => {
         <View style={styles.container}>
             <View style={styles.titlesContainer}>
                 <View style={styles.lastLoginContainer}>
-                    <Text style={styles.lastLoginTitile}>Last Login: </Text>
+                    <Text style={styles.lastLoginTitile}>{ConstantLabels.LAST_LOGIN}</Text>
                     <Text style={styles.lastLoginText}>{lastLoginData}</Text>
                 </View>
             </View>
             <View style={styles.newsContainer}>
                 <FlatList
                     data={news}
-                    keyExtractor={(item) => item.source.id + item.source.name + item.title + item.urlToImage}
+                    keyExtractor={(item) => item.urlToImage}
                     renderItem={({ item }) => <Article article={item} />}
-                    ListHeaderComponent={<Text style={styles.mainTitle}>Top Headlines in USA</Text>}
+                    ListHeaderComponent={<Text style={styles.mainTitle}>{ConstantText.TOP_HEADLINES}</Text>}
                     ItemSeparatorComponent={() => <View style={styles.articleGaps} />}
                 />
             </View>

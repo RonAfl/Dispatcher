@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Pressable, StyleSheet, View } from 'react-native';
-import Colors from '../../../utils/const/colors/Colors';
-import getLogo from '../../../assets/svgxml/logo';
-import getHeaderIcon from '../../../assets/svgxml/headerIcons';
-import { getSearchIcon } from '../../../assets/svgxml/headerIcons';
+import { Pressable, StyleSheet, View } from 'react-native';
+import Colors from '../../../../../utils/const/colors/Colors';
+import getLogo from '../../../../../assets/svgxml/logo';
+import getHeaderIcon from '../../../../../assets/svgxml/headerIcons';
+import { getSearchIcon } from '../../../../../assets/svgxml/headerIcons';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store/store';
+import { RootState } from '../../../../../redux/store/store';
+import { useNavigation } from '@react-navigation/native';
+import { Screen } from '../../../../../utils/navigation/Screens/Screens';
 
 const Header = () => {
     const isNewlike: boolean = useSelector((state: RootState) => state.favorites.newNotification);
-    const [notified, setNotified] = useState(isNewlike);
-    
+    const [notified, setNotified] = useState(false);
+    const navigation = useNavigation();
+
+    useEffect(()=>{
+        setNotified(true);
+    },[isNewlike])
+
     const handleNotificationsPressed = () =>{
         setNotified(false);
+        navigation.navigate(Screen.Notifications);
     }
 
     return (
@@ -29,7 +37,6 @@ const Header = () => {
         </View>
     )
 };
-
 
 const styles = StyleSheet.create({
     container: {

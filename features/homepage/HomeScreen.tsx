@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Header from './components/Header';
-import MainContent from './components/MainContent';
-import Sort from './components/Sort';
-
+import Header from './components/tabs/homepage/Header';
+import MainContent from './components/tabs/homepage/MainContent';
+import Sort from './components/tabs/homepage/Sort';
 const HomeScreen = () => {
 
     return (

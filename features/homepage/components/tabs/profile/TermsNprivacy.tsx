@@ -24,6 +24,7 @@ const TermsNprivacyScreen = () => {
             tabBarStyle: { height: 65 }
         });
     }, [navigation]);
+    
     return (
         <View  style={styles.container}>
             <TopBar />
@@ -32,7 +33,6 @@ const TermsNprivacyScreen = () => {
                     {ConstantText.TERMS_N_PRIVACY_TITLE}
                 </Text>
             </View>
-
             <ScrollView style={styles.mainContentContainer}>
                 <Text style={styles.mainContent}>
                     {ConstantText.TERMS_N_PRIVACY_CONTENT_TEXT}
@@ -44,7 +44,6 @@ const TermsNprivacyScreen = () => {
                     {ConstantText.TERMS_N_PRIVACY_CONTENT_TEXT}
                 </Text>
             </ScrollView>
-
         </View>
     )
 }
@@ -69,9 +68,6 @@ const styles = StyleSheet.create({
         lineHeight: 16,
         color: Colors.text,
         marginTop: 12,
-
     }
-
 })
-
 export default TermsNprivacyScreen;

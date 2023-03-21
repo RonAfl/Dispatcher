@@ -1,22 +1,21 @@
 import React from 'react';
-import {  Image, StyleSheet, Text, View } from 'react-native';
-import Colors from '../../../utils/const/colors/Colors';
-import { ConstantLabels } from '../../../utils/const/constantTexts/ConstantText';
-
+import {   StyleSheet, Text, View } from 'react-native';
+import sortDropDown from '../../../../../assets/svgxml/sortDropDown';
+import sortFilter from '../../../../../assets/svgxml/sortFilter';
+import Colors from '../../../../../utils/const/colors/Colors';
+import { ConstantLabels } from '../../../../../utils/const/constantTexts/ConstantText';
 
 const Sort = () => {
-
     return (
         <View style={styles.container}>
             <View style={styles.sortContainer}>
                 <Text style={styles.text}>{ConstantLabels.SORT_BY}</Text>
-                <Image source={require('../../../assets/images/dropdown.png')}></Image>
+                {sortDropDown()}
             </View>
-            <Image style={styles.filter} source={require('../../../assets/images/filter.png')}></Image>
+            {sortFilter()}
         </View>
     )
 };
-
 
 const styles = StyleSheet.create({
     container: {
@@ -44,8 +43,6 @@ const styles = StyleSheet.create({
     filter:{
         marginRight:15,
     }
-
-
 })
 
 export default Sort;

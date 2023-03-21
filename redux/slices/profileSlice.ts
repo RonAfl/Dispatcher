@@ -36,24 +36,16 @@ export const profileSlice = createSlice({
                     emailConfirm = true;
                 })
                 .catch(err => Alert.alert('Error!', err.message));
-
             auth().currentUser?.updateProfile({
                 displayName: state.data.name,
             }).then(res=>{
                 nameConfirm = true;
-
             })
             .catch(err => Alert.alert('Error!', err.message));
-
             if(nameConfirm && emailConfirm){
                 state.confirm=true;
             }
-
         }
-
-
-
-
     },
 });
 

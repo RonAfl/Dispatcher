@@ -10,10 +10,9 @@ export type ProfileStackParams = {
     TermsNprivacy: undefined,
     Edit: undefined,
 }
-
 const ProfileStack = createNativeStackNavigator<ProfileStackParams>();
-export const ProfileNavigator = () => {
 
+export const ProfileNavigator = () => {
     return (
         <ProfileStack.Navigator initialRouteName="Profile">
             <ProfileStack.Screen
@@ -36,9 +35,7 @@ export const ProfileNavigator = () => {
                 component={EditScreen}
                 options={{ headerShown: false }}
             />
-
         </ProfileStack.Navigator>
     )
-
 }
 

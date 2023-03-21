@@ -7,24 +7,19 @@ import { Screen } from '../../utils/navigation/Screens/Screens';
 import Colors from '../../utils/const/colors/Colors';
 import { ConstantLabels, ConstantText } from '../../utils/const/constantTexts/ConstantText';
 import getLogo from '../../assets/svgxml/logo';
-
-
 import { useNavigation } from '@react-navigation/native';
 import { AppStackParams } from '../../utils/navigation/AppNavigation';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
+import emailValidation from '../../utils/functions/emailValidation';
+import passwordValidation from '../../utils/functions/passwordValidation';
 
 const LoginScreen = () => {
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const [emailColor, setEmailColor] = useState(Colors.black);
     const [passwordColor, setPasswordColor] = useState(Colors.black);
-
     const [emailErrorMessage, setEmailErrorMessage] = useState('');
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
-
     const [isHiddenMail, setIsHiddenMail] = useState(true);
     const [isHiddenPass, setisHiddenPass] = useState(true);
 
@@ -38,13 +33,13 @@ const LoginScreen = () => {
 
         const isEmailValid: boolean = emailValidation(email);
         const isPasswordValid: boolean = passwordValidation(password);
+        console.log(password.length)
 
         if (isEmailValid && isPasswordValid) {
             auth().signInWithEmailAndPassword(email, password).then(res => {
                 navigation.navigate('Tabs');
                 Alert.alert(ConstantText.SUCCESS, ConstantText.SUCCESS_LOGIN_MSG);
             }).catch((error) => {
-
                 if (error.code === ConstantText.WRONG_PASSWORD) {
                     setisHiddenPass(false);
                     setPasswordErrorMessage(ConstantText.WRONG_PASSWORD_ERR_MSG);
@@ -76,15 +71,6 @@ const LoginScreen = () => {
         navigation.navigate(Screen.REGISTER_PAGE);
     }
 
-    const emailRegex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const emailValidation = (email: string) => {
-        return emailRegex.test(email);
-    }
-
-    const passwordValidation = (password: string) => {
-        return password.length >= ConstantText.PASSWORD_MAX_LENGTH;
-    }
-
     const unHiddenStyle: ViewStyle = {
         display: 'flex',
         alignItems: 'flex-start',
@@ -94,38 +80,29 @@ const LoginScreen = () => {
 
     const HiddenStyle: ViewStyle = {
         display: 'none',
-
     };
 
     return (
         <KeyboardAvoidingView style={styles.viewsContainer}>
-
             <View style={styles.logoContainer}>
                 {getLogo(false)}
             </View>
-
             <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Login</Text>
+                    <Text style={styles.title}>{ConstantLabels.LOGIN}</Text>
                 </View>
-
                 <View style={styles.inputsContainer}>
                     <AppInput label={ConstantLabels.EMAIL} borderColor={emailColor} isPassword={false} text={email} onChange={setEmail} />
                     <Text style={[styles.messageEmailStyle, isHiddenMail ? HiddenStyle : unHiddenStyle]}>{emailErrorMessage}</Text>
-
                     <AppInput label={ConstantLabels.PASSWORD} borderColor={passwordColor} isPassword={true} text={password} onChange={setPassword} />
                     <Text style={[styles.messagePasswordStyle, isHiddenPass ? HiddenStyle : unHiddenStyle]}>{passwordErrorMessage}</Text>
-
                 </View>
-
                 <View style={styles.separatorLine} />
-
                 <View style={styles.buttonsContainer}>
-                    <AuthButton label={ConstantLabels.LOGIN.toUpperCase()} bgcolor={Colors.button_primary} isArrow={true} onPress={handleLoginPressed} />
-                    <AuthButton label={ConstantLabels.SIGN_UP.toUpperCase()} bgcolor={Colors.button_secondary} isArrow={false} onPress={handleSignUpPressed} />
+                    <AuthButton label={ConstantLabels.LOGIN.toUpperCase()} bgcolor={Colors.button_primary} isImage={true} onPress={handleLoginPressed} />
+                    <AuthButton label={ConstantLabels.SIGN_UP.toUpperCase()} bgcolor={Colors.button_secondary} isImage={false} onPress={handleSignUpPressed} />
                 </View>
             </View>
-
         </KeyboardAvoidingView>
     )
 };
@@ -176,15 +153,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 16,
         marginTop: 50,
-
     },
     messageEmailStyle: {
         color: Colors.error_msg,
-
     },
     messagePasswordStyle: {
         color: Colors.error_msg,
-
     },
 })
 
