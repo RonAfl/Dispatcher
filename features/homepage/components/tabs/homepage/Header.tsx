@@ -4,22 +4,26 @@ import Colors from '../../../../../utils/const/colors/Colors';
 import getLogo from '../../../../../assets/svgxml/logo';
 import getHeaderIcon from '../../../../../assets/svgxml/headerIcons';
 import { getSearchIcon } from '../../../../../assets/svgxml/headerIcons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../redux/store/store';
 import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../../../../utils/navigation/Screens/Screens';
+import { NotificationInterface, notificationsOff } from '../../../../../redux/slices/favsSlice';
 
 const Header = () => {
-    const isNewlike: boolean = useSelector((state: RootState) => state.favorites.newNotification);
     const [notified, setNotified] = useState(false);
+    const isNewlike: boolean = useSelector((state: RootState) => state.favorites.newNotification);
+    const notifications: NotificationInterface[] = useSelector((state: RootState) => state.favorites.notifications);
     const navigation = useNavigation();
+    const dispatch= useDispatch();
 
     useEffect(()=>{
         setNotified(true);
-    },[isNewlike])
+    },[notifications])
 
     const handleNotificationsPressed = () =>{
         setNotified(false);
+        dispatch(notificationsOff());
         navigation.navigate(Screen.Notifications);
     }
 

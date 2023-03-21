@@ -7,7 +7,7 @@ import { login } from '../../redux/slices/authSlice';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AppTabsScreen from './tabs/AppTabs';
 import { Screen } from './Screens/Screens';
-import Notifications from '../../features/homepage/components/tabs/homepage/Notifications';
+import Notifications from '../../features/homepage/components/notifications/Notifications';
 
 const AppStack = createNativeStackNavigator<AppStackParams>();
 export type AppStackParams = {

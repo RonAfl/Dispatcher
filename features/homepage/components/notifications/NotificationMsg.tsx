@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
-import notificationMessage from "../../../../../assets/svgxml/notificationMessage";
-import msgArrow from "../../../../../assets/svgxml/notificationMsgArrow";
-import { ConstantText } from "../../../../../utils/const/constantTexts/ConstantText";
+import notificationMessage from "../../../../assets/svgxml/notificationMessage";
+import msgArrow from "../../../../assets/svgxml/notificationMsgArrow";
+import { ConstantText } from "../../../../utils/const/constantTexts/ConstantText";
 
 const NotificationMsg = ({isNew}:{isNew:boolean}) => {
     const containerStyle = isNew ? styles.newContainer : styles.container;

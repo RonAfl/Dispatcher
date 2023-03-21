@@ -48,6 +48,7 @@ const Article = (props: ArticleProps) => {
                 source: article.source
             }
             dispatch(likeClicked(fav));
+            
         }
         else {
             dispatch(unlikeClicked(article));

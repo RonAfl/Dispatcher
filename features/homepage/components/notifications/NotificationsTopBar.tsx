@@ -1,12 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import { getLeftArrow } from "../../../../../assets/svgxml/topBarIcons";
+import { getLeftArrow } from "../../../../assets/svgxml/topBarIcons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ProfileStackParams } from "../../../ProfileScreen";
-import Colors from "../../../../../utils/const/colors/Colors";
-import { Screen } from "../../../../../utils/navigation/Screens/Screens";
-import { ConstantLabels } from "../../../../../utils/const/constantTexts/ConstantText";
+import { ProfileStackParams } from "../../ProfileScreen";
+import Colors from "../../../../utils/const/colors/Colors";
+import { Screen } from "../../../../utils/navigation/Screens/Screens";
+import { ConstantLabels } from "../../../../utils/const/constantTexts/ConstantText";
 
 const NotificationsTopBar = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileStackParams>>();
